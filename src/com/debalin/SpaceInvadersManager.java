@@ -25,11 +25,13 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
   public Player player;
   public SpawnPoint playerSpawnPoint;
   public Queue<GameObject> enemies;
+  public Queue<GameObject> bullets;
   public boolean serverMode;
   public GameServer gameServer;
   public GameClient gameClient;
 
   public int enemiesObjectID;
+  public int bulletsObjectID;
   public int playerObjectID;
 
   Map<Integer, Queue<Event>> fromServerWriteQueues;
@@ -41,7 +43,8 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
   public SpaceInvadersManager(boolean serverMode) {
     this.serverMode = serverMode;
     enemies = new ConcurrentLinkedQueue<>();
-    enemiesObjectID = playerObjectID = -1;
+    bullets = new ConcurrentLinkedQueue<>();
+    enemiesObjectID = playerObjectID = bulletsObjectID = -1;
     fromServerWriteQueues = new HashMap<>();
 
     dateFormat = new DecimalFormat();
@@ -66,20 +69,17 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
 
   @Override
   public Map<String, GameObject> bindObjects() {
-    Map<String, GameObject> gameObjects = new HashMap<>();
-
-    return gameObjects;
+    return null;
   }
 
   @Override
   public String getScriptPath() {
-    String scriptPath = System.getProperty("user.dir") + "/scripts/script.js";
-    return scriptPath;
+    return null;
   }
 
   @Override
   public String getScriptFunctionName() {
-    return "stairMover";
+    return null;
   }
 
   @Override

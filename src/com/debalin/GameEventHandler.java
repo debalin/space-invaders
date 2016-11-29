@@ -1,5 +1,6 @@
 package com.debalin;
 
+import com.debalin.characters.Bullet;
 import com.debalin.characters.Enemy;
 import com.debalin.characters.Player;
 import com.debalin.characters.SpawnPoint;
@@ -54,7 +55,19 @@ public class GameEventHandler implements EventHandler {
       case "SCRIPT":
         handleScripts(event);
         break;
+      case "PLAYER_FIRE":
+        handlePlayerFire(event);
+        break;
     }
+  }
+
+  private void handlePlayerFire(Event event) {
+    List<Object> eventParameters = event.getEventParameters();
+    PVector bulletInitPosition = (PVector) eventParameters.get(0);
+
+    Bullet bullet = new Bullet(spaceInvadersManager.engine, bulletInitPosition);
+    spaceInvadersManager.bullets.add(bullet);
+    spaceInvadersManager.bulletsObjectID = spaceInvadersManager.engine.registerGameObject(bullet, spaceInvadersManager.bulletsObjectID, true);
   }
 
   private void handleScripts(Event event) {

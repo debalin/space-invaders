@@ -26,6 +26,12 @@ public class Constants {
   public static final float ENEMY_PADDING = 18;
   public static final int ENEMY_MOVE_INTERVAL = 40;
 
+  public static final PVector BULLET_INIT_VEL = new PVector(0, -5);
+  public static final PVector BULLET_INIT_ACC = new PVector(0, 0);
+  public static final PVector BULLET_COLOR = new PVector(0, 255, 0);
+  public static final PVector BULLET_SIZE = new PVector(2, 5);
+  public static final float BULLET_PADDING = 18;
+
   public static final int SERVER_PORT = 5678;
   public static final String SERVER_ADDRESS = "localhost";
 

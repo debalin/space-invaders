@@ -1,8 +1,13 @@
 package com.debalin.characters;
 
 import com.debalin.engine.MainEngine;
+import com.debalin.engine.events.Event;
+import com.debalin.engine.util.EngineConstants;
 import com.debalin.util.Constants;
 import processing.core.PVector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Player extends MovingRectangle {
 
@@ -63,7 +68,22 @@ public class Player extends MovingRectangle {
       case 'd':
         RIGHT = set;
         break;
+      case 32:
+        fireBullet();
+        break;
     }
+  }
+
+  public void fireBullet() {
+    String eventType = Constants.EVENT_TYPES.PLAYER_FIRE.toString();
+    List<Object> eventParameters = new ArrayList<>();
+
+    PVector bulletInitPosition = new PVector(position.x + Constants.PLAYER_SIZE.x / 2, position.y);
+
+    eventParameters.add(bulletInitPosition);
+    Event event = new Event(eventType, eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), MainEngine.controller.getClientConnectionID().intValue(), engine.gameTimelineInMillis.getTime(), true);
+
+    engine.getEventManager().raiseEvent(event, true);
   }
 
 }
