@@ -12,7 +12,9 @@ import java.util.List;
 public class Player extends MovingRectangle {
 
   public boolean LEFT, RIGHT;
-  public float score = 0;
+  public int score = 0;
+  public float accuracy = 0;
+  public int bulletsFired = 0;
 
   private SpawnPoint spawnPoint;
 
@@ -29,6 +31,9 @@ public class Player extends MovingRectangle {
 
     if (!checkBounds())
       position.add(PVector.mult(velocity, frameTicSize));
+
+    if (bulletsFired != 0)
+      accuracy = (score / (float) bulletsFired) * 100;
   }
 
   private void checkDeath() {
@@ -52,7 +57,7 @@ public class Player extends MovingRectangle {
   private boolean checkBounds() {
     if (position.x + velocity.x + Constants.PLAYER_SIZE.x > Constants.CLIENT_RESOLUTION.x - Constants.PLAYER_PADDING_X) {
       return true;
-    } else if (position.x +velocity.x <= Constants.PLAYER_PADDING_X) {
+    } else if (position.x + velocity.x <= Constants.PLAYER_PADDING_X) {
       return true;
     }
     return false;
@@ -84,6 +89,8 @@ public class Player extends MovingRectangle {
     Event event = new Event(eventType, eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), MainEngine.controller.getClientConnectionID().intValue(), engine.gameTimelineInMillis.getTime(), true);
 
     engine.getEventManager().raiseEvent(event, true);
+
+    bulletsFired++;
   }
 
 }

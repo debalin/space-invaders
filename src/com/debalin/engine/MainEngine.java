@@ -270,16 +270,15 @@ public class MainEngine extends PApplet {
       targetAlpha += signToggle;
     }
 
+    String instructions = "A: MOVE LEFT";
+    instructions += "\nD: MOVE RIGHT";
+    instructions += "\nSPACE: FIRE";
+
     pushMatrix();
     textFont(instructionsFont);
     noStroke();
     fill(255, 255, 255);
-    text("T: TOGGLE SCRIPT", clientResolution.x - 170, clientResolution.y - 150);
-    text("R: RECORD", clientResolution.x - 170, clientResolution.y - 130);
-    text("H: HALT", clientResolution.x - 170, clientResolution.y - 110);
-    text("N: NORMAL PLAY", clientResolution.x - 170, clientResolution.y - 90);
-    text("L: SLOW PLAY", clientResolution.x - 170, clientResolution.y - 70);
-    text("F: FAST PLAY", clientResolution.x - 170, clientResolution.y - 50);
+    text(instructions, clientResolution.x - 170, clientResolution.y - 110);
     popMatrix();
 
     for (TextRenderer textRenderer : textRenderers) {
@@ -407,8 +406,7 @@ public class MainEngine extends PApplet {
         if (runScript) {
           System.out.println("Script stopped.");
           runScript = false;
-        }
-        else {
+        } else {
           System.out.println("Script started.");
           runScript = true;
         }

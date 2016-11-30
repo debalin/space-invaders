@@ -6,17 +6,19 @@ import processing.core.PVector;
 
 public class Enemy extends MovingRectangle {
 
-  private long enemyID;
+  private int enemyID;
   private int rowID, columnID;
   public int signToggle = -1;
 
-  public Enemy(MainEngine engine, PVector enemyInitPosition, long enemyID) {
+  public int health = 100;
+
+  public Enemy(MainEngine engine, PVector enemyInitPosition, int enemyID) {
     super(Constants.ENEMY_COLOR, enemyInitPosition, Constants.ENEMY_SIZE, Constants.ENEMY_INIT_VEL, Constants.ENEMY_INIT_ACC, engine);
     setVisible(true);
 
     this.enemyID = enemyID;
-    this.rowID = (int) enemyID / 10;
-    this.columnID = (int) enemyID % 10;
+    this.rowID = enemyID / 10;
+    this.columnID = enemyID % 10;
   }
 
   public void update(float frameTicSize) {
@@ -49,7 +51,16 @@ public class Enemy extends MovingRectangle {
     engine.popMatrix();
   }
 
-  public long getEnemyID() {
+  public int getEnemyID() {
     return enemyID;
+  }
+
+  public void reduceHealth() {
+    health -= 25;
+    color.y = color.z = 0;
+    color.x -= 60;
+    if (health <= 0) {
+      setVisible(false);
+    }
   }
 }

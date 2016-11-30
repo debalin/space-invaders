@@ -7,13 +7,8 @@ import com.debalin.characters.SpawnPoint;
 import com.debalin.engine.MainEngine;
 import com.debalin.engine.events.Event;
 import com.debalin.engine.events.EventHandler;
-import com.debalin.engine.game_objects.GameObject;
-import com.debalin.engine.scripting.ScriptManager;
-import com.debalin.engine.util.EngineConstants;
-import com.debalin.util.Constants;
 import processing.core.PVector;
 
-import java.util.LinkedList;
 import java.util.List;
 
 public class GameEventHandler implements EventHandler {
@@ -33,7 +28,7 @@ public class GameEventHandler implements EventHandler {
         handlePlayerDeath(event);
         break;
       case "ENEMY_SPAWN":
-        handleStairSpawn(event);
+        handleEnemySpawn(event);
         break;
       case "PLAYER_SPAWN":
         handlePlayerSpawn(event);
@@ -49,33 +44,28 @@ public class GameEventHandler implements EventHandler {
       case "RECORD_PLAY":
         playRecording(event);
         break;
-      case "PLAYER_DISCONNECT":
-        handlePlayerDisconnect(event);
-        break;
-      case "SCRIPT":
-        handleScripts(event);
-        break;
       case "PLAYER_FIRE":
         handlePlayerFire(event);
         break;
+      case "ENEMY_HIT":
+        handleEnemyHit(event);
     }
+  }
+
+  private void handleEnemyHit(Event event) {
+    List<Object> eventParameters = event.getEventParameters();
+    int enemyID = (Integer) eventParameters.get(0);
+
+    ((Enemy)spaceInvadersManager.enemyMap.get(enemyID)).reduceHealth();
   }
 
   private void handlePlayerFire(Event event) {
     List<Object> eventParameters = event.getEventParameters();
     PVector bulletInitPosition = (PVector) eventParameters.get(0);
 
-    Bullet bullet = new Bullet(spaceInvadersManager.engine, bulletInitPosition);
+    Bullet bullet = new Bullet(spaceInvadersManager.engine, bulletInitPosition, spaceInvadersManager.enemies, spaceInvadersManager.player);
     spaceInvadersManager.bullets.add(bullet);
     spaceInvadersManager.bulletsObjectID = spaceInvadersManager.engine.registerGameObject(bullet, spaceInvadersManager.bulletsObjectID, true);
-  }
-
-  private void handleScripts(Event event) {
-
-  }
-
-  private void handlePlayerDisconnect(Event event) {
-
   }
 
   private void startRecording() {
@@ -115,13 +105,14 @@ public class GameEventHandler implements EventHandler {
     spaceInvadersManager.player.setConnectionID(spaceInvadersManager.getClientConnectionID().intValue());
   }
 
-  private void handleStairSpawn(Event event) {
+  private void handleEnemySpawn(Event event) {
     List<Object> eventParameters = event.getEventParameters();
     int enemyID = (Integer) eventParameters.get(0);
     PVector position = (PVector) eventParameters.get(1);
 
     Enemy enemy = new Enemy(spaceInvadersManager.engine, position, enemyID);
     spaceInvadersManager.enemies.add(enemy);
+    spaceInvadersManager.enemyMap.put(enemyID, enemy);
     spaceInvadersManager.enemiesObjectID = spaceInvadersManager.engine.registerGameObject(enemy, spaceInvadersManager.enemiesObjectID, true);
   }
 

@@ -26,20 +26,19 @@ public class Constants {
   public static final float ENEMY_PADDING = 18;
   public static final int ENEMY_MOVE_INTERVAL = 40;
 
-  public static final PVector BULLET_INIT_VEL = new PVector(0, -5);
+  public static final PVector BULLET_INIT_VEL = new PVector(0, -4);
   public static final PVector BULLET_INIT_ACC = new PVector(0, 0);
   public static final PVector BULLET_COLOR = new PVector(0, 255, 0);
   public static final PVector BULLET_SIZE = new PVector(2, 5);
-  public static final float BULLET_PADDING = 18;
+  public static final float BULLET_PADDING = 5;
 
   public static final int SERVER_PORT = 5678;
   public static final String SERVER_ADDRESS = "localhost";
 
-  public static final PVector SCORE_POSITION = new PVector(CLIENT_RESOLUTION.x - 150, 50);
-  public static final int SCORE_INCREMENT_INTERVAL = 500;
+  public static final PVector SCORE_POSITION = new PVector(40, Constants.CLIENT_RESOLUTION.y - 80);
 
   public enum EVENT_TYPES {
-    PLAYER_DEATH, ENEMY_SPAWN, PLAYER_SPAWN, PLAYER_FIRE, NULL, SCRIPT
+    PLAYER_DEATH, ENEMY_SPAWN, PLAYER_SPAWN, PLAYER_FIRE, NULL, SCRIPT, ENEMY_HIT
   }
 
 }

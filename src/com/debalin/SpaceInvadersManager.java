@@ -25,6 +25,7 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
   public Player player;
   public SpawnPoint playerSpawnPoint;
   public Queue<GameObject> enemies;
+  public Map<Integer, GameObject> enemyMap;
   public Queue<GameObject> bullets;
   public boolean serverMode;
   public GameServer gameServer;
@@ -36,19 +37,20 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
 
   Map<Integer, Queue<Event>> fromServerWriteQueues;
 
-  DecimalFormat dateFormat;
+  DecimalFormat decimalFormatter;
 
   private EventHandler eventHandler;
 
   public SpaceInvadersManager(boolean serverMode) {
     this.serverMode = serverMode;
     enemies = new ConcurrentLinkedQueue<>();
+    enemyMap = new HashMap<>();
     bullets = new ConcurrentLinkedQueue<>();
     enemiesObjectID = playerObjectID = bulletsObjectID = -1;
     fromServerWriteQueues = new HashMap<>();
 
-    dateFormat = new DecimalFormat();
-    dateFormat.setMaximumFractionDigits(2);
+    decimalFormatter = new DecimalFormat();
+    decimalFormatter.setMaximumFractionDigits(2);
 
     eventHandler = new GameEventHandler(this);
   }
@@ -95,8 +97,11 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
   }
 
   public String getTextContent() {
-    String content = "";
+    if (player == null)
+      return "";
 
+    String content = "Score: " + player.score;
+    content += "\nAccuracy: " + decimalFormatter.format(player.accuracy);
     return content;
   }
 
@@ -124,6 +129,7 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
       }
       System.out.println("Connection ID is " + getClientConnectionID() + ".");
       initializePlayer();
+      registerTextRenderers();
     } else {
       spawnEnemies();
     }
@@ -169,15 +175,15 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
   }
 
   public void manage() {
-    removeStairs();
+    removeGameObjects();
   }
 
-  private void removeStairs() {
+  private void removeGameObjects() {
     synchronized (enemies) {
       Iterator<GameObject> i = enemies.iterator();
       while (i.hasNext()) {
-        Enemy stair = (Enemy) i.next();
-        if (!stair.isVisible())
+        Enemy enemy = (Enemy) i.next();
+        if (!enemy.isVisible())
           i.remove();
       }
     }
