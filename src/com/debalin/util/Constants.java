@@ -24,7 +24,7 @@ public class Constants {
   public static final PVector ENEMY_COLOR = new PVector(240, 240, 240);
   public static final PVector ENEMY_SIZE = new PVector(18, 18);
   public static final float ENEMY_PADDING = 18;
-  public static final int ENEMY_MOVE_INTERVAL = 40;
+  public static int ENEMY_MOVE_INTERVAL = 40;
 
   public static final PVector BULLET_INIT_VEL = new PVector(0, -4);
   public static final PVector BULLET_INIT_ACC = new PVector(0, 0);
@@ -35,7 +35,7 @@ public class Constants {
   public static final int SERVER_PORT = 5678;
   public static final String SERVER_ADDRESS = "localhost";
 
-  public static final PVector SCORE_POSITION = new PVector(40, Constants.CLIENT_RESOLUTION.y - 80);
+  public static final PVector SCORE_POSITION = new PVector(40, Constants.CLIENT_RESOLUTION.y - 110);
 
   public enum EVENT_TYPES {
     PLAYER_DEATH, ENEMY_SPAWN, PLAYER_SPAWN, PLAYER_FIRE, NULL, SCRIPT, ENEMY_HIT

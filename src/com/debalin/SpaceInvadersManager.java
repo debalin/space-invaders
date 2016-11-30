@@ -13,6 +13,8 @@ import com.debalin.engine.network.GameServer;
 import com.debalin.engine.util.EngineConstants;
 import com.debalin.engine.util.TextRenderer;
 import com.debalin.util.Constants;
+import com.sun.corba.se.impl.orbutil.closure.Constant;
+import com.sun.xml.internal.bind.v2.runtime.reflect.opt.Const;
 import processing.core.PVector;
 
 import java.text.DecimalFormat;
@@ -100,8 +102,9 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
     if (player == null)
       return "";
 
-    String content = "Score: " + player.score;
+    String content = "Score: " + decimalFormatter.format(player.score);
     content += "\nAccuracy: " + decimalFormatter.format(player.accuracy);
+    content += "\nDeaths: " + player.deaths;
     return content;
   }
 
@@ -168,14 +171,29 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
         List<Object> eventParameters = new ArrayList<>();
         eventParameters.add(enemyID);
         eventParameters.add(enemyInitPosition);
+        eventParameters.add(Constants.ENEMY_MAX_VEL.copy());
+        eventParameters.add(Constants.ENEMY_MOVE_INTERVAL);
         Event event = new Event(eventType, eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), getClientConnectionID().intValue(), engine.gameTimelineInMillis.getTime(), true);
         engine.getEventManager().raiseEvent(event, true);
       }
     }
+    Constants.ENEMY_MAX_VEL.y += 5;
+    Constants.ENEMY_MOVE_INTERVAL -= 5;
   }
 
   public void manage() {
     removeGameObjects();
+    if (checkAllEnemiesDeath() && enemiesObjectID != -1) {
+      reset();
+      player.deaths--;
+    }
+  }
+
+  public boolean checkAllEnemiesDeath() {
+    if (enemies.size() == 0)
+      return true;
+    else
+      return false;
   }
 
   private void removeGameObjects() {
@@ -205,6 +223,14 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
   @Override
   public EventHandler getEventHandler() {
     return eventHandler;
+  }
+
+  public void reset() {
+    engine.removeGameObjects(enemiesObjectID);
+    enemyMap.clear();
+    enemies.clear();
+    spawnEnemies();
+    player.regenerate();
   }
 
 }

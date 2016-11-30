@@ -45,7 +45,7 @@ public class Bullet extends MovingRectangle {
 
       engine.getEventManager().raiseEvent(event, true);
       setVisible(false);
-      player.score++;
+      player.score += Math.pow(2, -player.deaths) * 1;
       return;
     });
   }

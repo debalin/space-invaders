@@ -25,7 +25,7 @@ public class GameEventHandler implements EventHandler {
         handleUserInput(event);
         break;
       case "PLAYER_DEATH":
-        handlePlayerDeath(event);
+        handlePlayerDeath();
         break;
       case "ENEMY_SPAWN":
         handleEnemySpawn(event);
@@ -100,7 +100,7 @@ public class GameEventHandler implements EventHandler {
   private void handlePlayerSpawn(Event event) {
     List<Object> eventParameters = event.getEventParameters();
 
-    spaceInvadersManager.player = new Player(spaceInvadersManager.engine, (SpawnPoint) eventParameters.get(0));
+    spaceInvadersManager.player = new Player(spaceInvadersManager.engine, (SpawnPoint) eventParameters.get(0), spaceInvadersManager.enemies);
     spaceInvadersManager.playerObjectID = spaceInvadersManager.engine.registerGameObject(spaceInvadersManager.player, spaceInvadersManager.playerObjectID, true);
     spaceInvadersManager.player.setConnectionID(spaceInvadersManager.getClientConnectionID().intValue());
   }
@@ -109,15 +109,18 @@ public class GameEventHandler implements EventHandler {
     List<Object> eventParameters = event.getEventParameters();
     int enemyID = (Integer) eventParameters.get(0);
     PVector position = (PVector) eventParameters.get(1);
+    PVector maxVelocity = (PVector) eventParameters.get(2);
+    int moveInterval = (Integer) eventParameters.get(3);
 
-    Enemy enemy = new Enemy(spaceInvadersManager.engine, position, enemyID);
+    Enemy enemy = new Enemy(spaceInvadersManager.engine, position, enemyID, maxVelocity, moveInterval);
     spaceInvadersManager.enemies.add(enemy);
     spaceInvadersManager.enemyMap.put(enemyID, enemy);
     spaceInvadersManager.enemiesObjectID = spaceInvadersManager.engine.registerGameObject(enemy, spaceInvadersManager.enemiesObjectID, true);
   }
 
-  private void handlePlayerDeath(Event event) {
-
+  private void handlePlayerDeath() {
+    spaceInvadersManager.engine.delay(3000);
+    spaceInvadersManager.reset();
   }
 
   private void handleUserInput(Event event) {

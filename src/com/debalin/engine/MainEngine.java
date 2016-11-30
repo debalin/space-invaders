@@ -89,6 +89,9 @@ public class MainEngine extends PApplet {
   }
 
   public void removeGameObjects(int gameObjectListID) {
+    if (gameObjectListID == -1)
+      return;
+
     synchronized (gameObjectsCluster) {
       gameObjectsCluster.get(gameObjectListID).clear();
     }
@@ -270,9 +273,9 @@ public class MainEngine extends PApplet {
       targetAlpha += signToggle;
     }
 
-    String instructions = "A: MOVE LEFT";
-    instructions += "\nD: MOVE RIGHT";
-    instructions += "\nSPACE: FIRE";
+    String instructions = "A: Move Left";
+    instructions += "\nD: Move Right";
+    instructions += "\nSPACE: Fire";
 
     pushMatrix();
     textFont(instructionsFont);
