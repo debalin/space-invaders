@@ -371,47 +371,59 @@ public class MainEngine extends PApplet {
     switch (key) {
       case 'R':
       case 'r':
-        System.out.println("Starting recording.");
-        event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_START.toString(), null, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
-        eventManager.raiseEvent(event, true);
+        if (EngineConstants.REPLAY_ON) {
+          System.out.println("Starting recording.");
+          event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_START.toString(), null, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
+          eventManager.raiseEvent(event, true);
+        }
         break;
       case 'H':
       case 'h':
-        System.out.println("Stopping recording.");
-        event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_STOP.toString(), null, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
-        eventManager.raiseEvent(event, true);
+        if (EngineConstants.REPLAY_ON) {
+          System.out.println("Stopping recording.");
+          event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_STOP.toString(), null, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
+          eventManager.raiseEvent(event, true);
+        }
         break;
       case 'N':
       case 'n':
-        eventParameters = new ArrayList<>();
-        eventParameters.add(ReplaySpeed.NORMAL.toString());
-        event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_PLAY.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
-        eventManager.raiseEvent(event, true);
+        if (EngineConstants.REPLAY_ON) {
+          eventParameters = new ArrayList<>();
+          eventParameters.add(ReplaySpeed.NORMAL.toString());
+          event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_PLAY.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
+          eventManager.raiseEvent(event, true);
+        }
         break;
       case 'L':
       case 'l':
-        System.out.println("Playing recording in low speed.");
-        eventParameters = new ArrayList<>();
-        eventParameters.add(ReplaySpeed.SLOW.toString());
-        event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_PLAY.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
-        eventManager.raiseEvent(event, true);
+        if (EngineConstants.REPLAY_ON) {
+          System.out.println("Playing recording in low speed.");
+          eventParameters = new ArrayList<>();
+          eventParameters.add(ReplaySpeed.SLOW.toString());
+          event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_PLAY.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
+          eventManager.raiseEvent(event, true);
+        }
         break;
       case 'F':
       case 'f':
-        System.out.println("Playing recording in fast speed.");
-        eventParameters = new ArrayList<>();
-        eventParameters.add(ReplaySpeed.FAST.toString());
-        event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_PLAY.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
-        eventManager.raiseEvent(event, true);
+        if (EngineConstants.REPLAY_ON) {
+          System.out.println("Playing recording in fast speed.");
+          eventParameters = new ArrayList<>();
+          eventParameters.add(ReplaySpeed.FAST.toString());
+          event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.RECORD_PLAY.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
+          eventManager.raiseEvent(event, true);
+        }
         break;
       case 'T':
       case 't':
-        if (runScript) {
-          System.out.println("Script stopped.");
-          runScript = false;
-        } else {
-          System.out.println("Script started.");
-          runScript = true;
+        if (EngineConstants.SCRIPT_ON) {
+          if (runScript) {
+            System.out.println("Script stopped.");
+            runScript = false;
+          } else {
+            System.out.println("Script started.");
+            runScript = true;
+          }
         }
         break;
       default:
@@ -420,6 +432,7 @@ public class MainEngine extends PApplet {
         eventParameters.add(new Boolean(false));
         event = new Event(EngineConstants.DEFAULT_EVENT_TYPES.USER_INPUT.toString(), eventParameters, EngineConstants.DEFAULT_TIMELINES.GAME_MILLIS.toString(), controller.getClientConnectionID().intValue(), gameTimelineInMillis.getTime(), false);
         eventManager.raiseEvent(event, true);
+        break;
     }
   }
 
