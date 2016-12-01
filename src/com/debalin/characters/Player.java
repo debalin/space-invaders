@@ -108,4 +108,8 @@ public class Player extends MovingRectangle {
     bulletsFired++;
   }
 
+  public void changeColor(float x, float y, float z) {
+    this.color.set(x, y, z);
+  }
+
 }

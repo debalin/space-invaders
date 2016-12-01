@@ -73,17 +73,22 @@ public class SpaceInvadersManager extends Controller implements TextRenderer {
 
   @Override
   public Map<String, GameObject> bindObjects() {
-    return null;
+    Map<String, GameObject> gameObjects = new HashMap<>();
+
+    gameObjects.put("player", player);
+
+    return gameObjects;
   }
 
   @Override
   public String getScriptPath() {
-    return null;
+    String scriptPath = System.getProperty("user.dir") + "/scripts/script.js";
+    return scriptPath;
   }
 
   @Override
   public String getScriptFunctionName() {
-    return null;
+    return "playerColorChanger";
   }
 
   @Override

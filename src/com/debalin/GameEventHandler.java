@@ -7,6 +7,7 @@ import com.debalin.characters.SpawnPoint;
 import com.debalin.engine.MainEngine;
 import com.debalin.engine.events.Event;
 import com.debalin.engine.events.EventHandler;
+import com.debalin.engine.scripting.ScriptManager;
 import processing.core.PVector;
 
 import java.util.List;
@@ -49,6 +50,21 @@ public class GameEventHandler implements EventHandler {
         break;
       case "ENEMY_HIT":
         handleEnemyHit(event);
+        break;
+      case "SCRIPT":
+        handleScripts(event);
+        break;
+    }
+  }
+
+  private void handleScripts(Event event) {
+    List<Object> eventParameters = event.getEventParameters();
+    String scriptFunctionName = (String) eventParameters.get(0);
+
+    if (scriptFunctionName.equals(spaceInvadersManager.engine.scriptFunctionName)) {
+      spaceInvadersManager.engine.bindScriptObjects();
+      ScriptManager.loadScript(spaceInvadersManager.engine.scriptPath);
+      ScriptManager.executeScript(spaceInvadersManager.engine.scriptFunctionName);
     }
   }
 

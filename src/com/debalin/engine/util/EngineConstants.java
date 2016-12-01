@@ -14,6 +14,6 @@ public class EngineConstants {
   }
 
   public static final boolean REPLAY_ON = false;
-  public static final boolean SCRIPT_ON = false;
+  public static final boolean SCRIPT_ON = true;
 
 }

@@ -276,12 +276,13 @@ public class MainEngine extends PApplet {
     String instructions = "A: Move Left";
     instructions += "\nD: Move Right";
     instructions += "\nSPACE: Fire";
+    instructions += "\nT: Toggle Script";
 
     pushMatrix();
     textFont(instructionsFont);
     noStroke();
     fill(255, 255, 255);
-    text(instructions, clientResolution.x - 170, clientResolution.y - 110);
+    text(instructions, clientResolution.x - 170, clientResolution.y - 120);
     popMatrix();
 
     for (TextRenderer textRenderer : textRenderers) {
